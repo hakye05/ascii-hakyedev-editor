@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+:root {
+  --text: #9ca3af;
+  --text-h: #ffffff;
+  --bg: #0A0A0A;
+
+  --sans: Consolas, ui-monospace, monospace;
+  --heading: Consolas, ui-monospace, monospace;
+  --mono: Consolas, ui-monospace, monospace;
+
+  font: 16px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  background-color: #121214;
+}
