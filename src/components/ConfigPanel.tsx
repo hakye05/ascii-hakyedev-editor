@@ -8,7 +8,35 @@ import { Selection } from "./ui/Selection";
 import { InputColor } from "./ui/InputColor";
 import { Checkbox } from "./ui/CheckBox";
 
-export const ConfigPanel: React.FC = () => {
+interface ConfigPanelProps {
+    file: File | null;
+    setFile: (file: File | null) => void;
+    asciiSettings: any;
+    setAsciiSettings: React.Dispatch<React.SetStateAction<any>>;
+    adjustments: any;
+    setAdjustments: React.Dispatch<React.SetStateAction<any>>;
+    bgColor: string;
+    setBgColor: (color: string) => void;
+    postProcess: any;
+    setPostProcess: React.Dispatch<React.SetStateAction<any>>;
+    format: string;
+    setFormat: (format: string) => void;
+}
+
+export const ConfigPanel: React.FC<ConfigPanelProps> = ({
+    file,
+    setFile,
+    asciiSettings,
+    setAsciiSettings,
+    adjustments,
+    setAdjustments,
+    bgColor,
+    setBgColor,
+    postProcess,
+    setPostProcess,
+    format,
+    setFormat
+}) => {
     const [openSections, setOpenSections] = useState({
         input: true,
         ascii: true,
@@ -17,34 +45,7 @@ export const ConfigPanel: React.FC = () => {
         postprocessing: true,
         export: true
     });
-
     const charSetList = ["STANDARD", "BINARY", "CUSTOM"];
-    const [asciiSettings, setAsciiSettings] = useState({
-        scale: 1,
-        spacing: 0,
-        charSet: "STANDARD",
-        customChar: " .:+*#@"
-    });
-
-    const [adjustments, setAdjustments] = useState({
-        brightness: 0,
-        contrast: 0,
-        saturation: 1,
-        hueRotation: 0,
-        sharpness: 0,
-        gamma: 1.0
-    });
-
-    const [bgColor, setBgColor] = useState("#000000");
-    const [postProcess, setPostProcess] = useState({
-        bloom: false,
-        grain: false,
-        chromatic: false,
-        vignette: false,
-        crt: false
-    });
-
-    const [format, setFormat] = useState("png");
     const options = [
         { id: "png", title: "PNG", subtitle: ".png" },
         { id: "jpeg", title: "JPEG", subtitle: ".jpg" },
@@ -64,7 +65,7 @@ export const ConfigPanel: React.FC = () => {
             setter(prev => ({ ...prev, [key]: value }));
         };
     };
-    
+
     return (
         <aside className="fixed top-0 left-0 h-screen w-80 text-white flex flex-col border-r border-zinc-800 bg-[#121214]">
             {/* Title Header */}
@@ -79,7 +80,10 @@ export const ConfigPanel: React.FC = () => {
                     isOpen={openSections.input}
                     onToggle={() => toggleSection('input')}
                 >
-                    <Upload />
+                    <Upload
+                        file={file}
+                        setFile={setFile}
+                    />
                 </Accordion>
 
                 <Accordion
