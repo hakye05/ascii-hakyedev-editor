@@ -1,5 +1,5 @@
 import './App.css'
-import ConfigPanel from './components/ConfigPanel'
+import { ConfigPanel } from './components/ConfigPanel'
 
 function App() {
   return (
