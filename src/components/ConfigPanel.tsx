@@ -11,6 +11,7 @@ import { Checkbox } from "./ui/CheckBox";
 interface ConfigPanelProps {
     file: File | null;
     setFile: (file: File | null) => void;
+    charSets: Record<string, string>;
     asciiSettings: any;
     setAsciiSettings: React.Dispatch<React.SetStateAction<any>>;
     adjustments: any;
@@ -26,6 +27,7 @@ interface ConfigPanelProps {
 export const ConfigPanel: React.FC<ConfigPanelProps> = ({
     file,
     setFile,
+    charSets,
     asciiSettings,
     setAsciiSettings,
     adjustments,
@@ -37,6 +39,7 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
     format,
     setFormat
 }) => {
+    const charSetList = [...Object.keys(charSets), "CUSTOM"];
     const [openSections, setOpenSections] = useState({
         input: true,
         ascii: true,
@@ -45,7 +48,6 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
         postprocessing: true,
         export: true
     });
-    const charSetList = ["STANDARD", "BINARY", "CUSTOM"];
     const options = [
         { id: "png", title: "PNG", subtitle: ".png" },
         { id: "jpeg", title: "JPEG", subtitle: ".jpg" },
@@ -98,14 +100,14 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
                         min={1}
                         max={20.0}
                         step={1}
-                        defaultValue={1}
+                        defaultValue={3}
                     />
                     <InputSlider
                         label="Spacing"
                         value={asciiSettings.spacing}
                         onChange={updateSetting(setAsciiSettings, 'spacing')}
-                        min={0.0}
-                        max={1.0}
+                        min={-2.0}
+                        max={5.0}
                         step={0.1}
                         defaultValue={0.0}
                         decimals={1}
