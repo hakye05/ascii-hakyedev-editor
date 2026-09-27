@@ -7,6 +7,8 @@ import { Input } from "./ui/Input";
 import { Selection } from "./ui/Selection";
 import { InputColor } from "./ui/InputColor";
 import { Checkbox } from "./ui/CheckBox";
+import { exportAsciiArt } from "../utils/Exporter";
+import { ButtonFull } from "./ui/ButtonFull";
 
 interface ConfigPanelProps {
     file: File | null;
@@ -50,9 +52,8 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
     });
     const options = [
         { id: "png", title: "PNG", subtitle: ".png" },
-        { id: "jpeg", title: "JPEG", subtitle: ".jpg" },
-        { id: "text", title: "Text", subtitle: ".txt" },
-        { id: "threejs", title: "Three.js", subtitle: ".html" }
+        { id: "jpg", title: "JPG", subtitle: ".jpg" },
+        { id: "text", title: "Text", subtitle: ".txt" }
     ];
 
     const toggleSection = (section: keyof typeof openSections) => {
@@ -195,37 +196,7 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
                     />
                 </Accordion>
 
-                <Accordion
-                    title="Post-Processing"
-                    isOpen={openSections.postprocessing}
-                    onToggle={() => toggleSection('postprocessing')}
-                >
-                    <Checkbox
-                        label="Bloom"
-                        checked={postProcess.bloom}
-                        onChange={updateSetting(setPostProcess, 'bloom')}
-                    />
-                    <Checkbox
-                        label="Grain"
-                        checked={postProcess.grain}
-                        onChange={updateSetting(setPostProcess, 'grain')}
-                    />
-                    <Checkbox
-                        label="Chromatic"
-                        checked={postProcess.chromatic}
-                        onChange={updateSetting(setPostProcess, 'chromatic')}
-                    />
-                    <Checkbox
-                        label="Vignette"
-                        checked={postProcess.vignette}
-                        onChange={updateSetting(setPostProcess, 'vignette')}
-                    />
-                    <Checkbox
-                        label="CRT Effect"
-                        checked={postProcess.crt}
-                        onChange={updateSetting(setPostProcess, 'crt')}
-                    />
-                </Accordion>
+
 
                 <Accordion
                     title="Export"
@@ -238,6 +209,12 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
                         onChange={setFormat}
                         options={options}
                     />
+                    <ButtonFull
+                        onClick={() => exportAsciiArt(file, format, asciiSettings, adjustments, charSets, bgColor)}
+                        disabled={!file}
+                    >
+                        Export ASCII
+                    </ButtonFull>
                 </Accordion>
             </div>
         </aside>
