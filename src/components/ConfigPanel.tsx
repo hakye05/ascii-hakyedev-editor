@@ -97,19 +97,20 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
                         label="Scale"
                         value={asciiSettings.scale}
                         onChange={updateSetting(setAsciiSettings, 'scale')}
-                        min={1}
-                        max={20.0}
-                        step={1}
+                        min={0.2}
+                        max={4}
+                        step={0.2}
                         defaultValue={3}
+                        decimals={1}
                     />
                     <InputSlider
                         label="Spacing"
                         value={asciiSettings.spacing}
                         onChange={updateSetting(setAsciiSettings, 'spacing')}
                         min={-2.0}
-                        max={5.0}
+                        max={4.0}
                         step={0.1}
-                        defaultValue={0.0}
+                        defaultValue={-2.0}
                         decimals={1}
                     />
                     <Selection
@@ -169,15 +170,6 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
                         step={1}
                         defaultValue={0}
                         unit="°"
-                    />
-                    <InputSlider
-                        label="Sharpness"
-                        value={adjustments.sharpness}
-                        onChange={updateSetting(setAdjustments, 'sharpness')}
-                        min={0}
-                        max={100}
-                        step={1}
-                        defaultValue={0}
                     />
                     <InputSlider
                         label="Gamma"

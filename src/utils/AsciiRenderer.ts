@@ -2,14 +2,14 @@ import type { Adjustments, AsciiSettings, GridCache } from "../types/ascii";
 
 /**
  * Renders the ASCII grid onto the target HTMLCanvasElement.
+ * Background is entirely excluded to prevent calculation slowdowns.
  */
 export const renderAsciiToCanvas = (
     canvas: HTMLCanvasElement,
     cache: GridCache,
     asciiSettings: AsciiSettings,
     adjustments: Adjustments,
-    charSets: Record<string, string>,
-    bgColor: string
+    charSets: Record<string, string>
 ) => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -22,17 +22,21 @@ export const renderAsciiToCanvas = (
 
     if (!chars || chars.length === 0) chars = " .:-=+*#%@";
 
-    const spacingOffset = asciiSettings.spacing;
-    const fontSize = cellSize;
+    const spacingOffset = asciiSettings.spacing * 2;
+    
+    // Dynamic font size: shrinks as spacing grows
+    const fontSize = Math.max(1, cellSize - spacingOffset);
 
-    canvas.width = cols * (fontSize + spacingOffset);
-    canvas.height = rows * (fontSize + spacingOffset);
+    const cellStride = cellSize;
 
-    ctx.fillStyle = bgColor;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    canvas.width = cols * cellStride;
+    canvas.height = rows * cellStride;
 
     ctx.font = `${fontSize}px monospace`;
     ctx.textBaseline = 'top';
+
+    // Calculate padding per side
+    const padding = (cellStride - fontSize) / 2;
 
     for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
@@ -51,8 +55,9 @@ export const renderAsciiToCanvas = (
             const charIndex = Math.floor(luminance * (chars.length - 1));
             const selectedChar = chars[charIndex] || ' ';
 
-            const drawX = x * (fontSize + spacingOffset);
-            const drawY = y * (fontSize + spacingOffset);
+            // Offset each character by the padding so spacing is distributed all around
+            const drawX = x * cellStride + padding;
+            const drawY = y * cellStride + padding;
 
             ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
             ctx.fillText(selectedChar, drawX, drawY);

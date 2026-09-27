@@ -24,7 +24,6 @@ function App() {
     contrast: 0,
     saturation: 0,
     hueRotation: 0,
-    sharpness: 0,
     gamma: 1.0
   });
   const [postProcess, setPostProcess] = useState({
@@ -35,7 +34,7 @@ function App() {
     crt: false
   });  
   const [bgColor, setBgColor] = useState("#000000");
-  
+
   return (
     <div className="flex h-screen w-screen bg-slate-950 overflow-hidden">
       <ConfigPanel

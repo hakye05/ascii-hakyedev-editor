@@ -75,17 +75,26 @@ export const Preview: React.FC<PreviewProps> = ({
         const cache = gridCacheRef.current;
         if (!canvas || !cache) return;
 
-        renderAsciiToCanvas(canvas, cache, asciiSettings, adjustments, charSets, bgColor);
+        renderAsciiToCanvas(canvas, cache, asciiSettings, adjustments, charSets);
     };
 
     useEffect(() => {
         triggerRender();
-    }, [asciiSettings.spacing, asciiSettings.charSet, asciiSettings.customChar, bgColor]);
+    }, [asciiSettings.spacing, asciiSettings.charSet, asciiSettings.customChar]);
+
+    useEffect(() => {
+        if (canvasRef.current) {
+            canvasRef.current.style.backgroundColor = bgColor;
+        }
+        if (containerRef.current) {
+            containerRef.current.style.backgroundColor = bgColor;
+        }
+    }, [bgColor]);
+
     return (
         <div 
             ref={containerRef} 
             className="relative w-full h-full flex items-center justify-center overflow-auto p-4"
-            style={{ backgroundColor: bgColor }}
         >
             {!file ? (
                 <div className="text-slate-500 flex flex-col items-center gap-2">
