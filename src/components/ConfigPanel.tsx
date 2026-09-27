@@ -6,7 +6,6 @@ import { OptionBox } from "./ui/OptionBox";
 import { Input } from "./ui/Input";
 import { Selection } from "./ui/Selection";
 import { InputColor } from "./ui/InputColor";
-import { Checkbox } from "./ui/CheckBox";
 import { exportAsciiArt } from "../utils/Exporter";
 import { ButtonFull } from "./ui/ButtonFull";
 
@@ -36,8 +35,6 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
     setAdjustments,
     bgColor,
     setBgColor,
-    postProcess,
-    setPostProcess,
     format,
     setFormat
 }) => {
